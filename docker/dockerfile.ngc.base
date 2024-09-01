@@ -1,0 +1,34 @@
+FROM nvidia/cuda:12.1.1-cudnn8-devel-ubuntu20.04
+
+RUN apt-get update
+RUN apt-get install -y \
+git
+
+# For Tutorial
+
+## For PyTorch
+RUN pip install seaborn ncps torch pytorch-lightning
+
+## For Tensorflow
+RUN pip install seaborn ncps
+
+# For Partially Observabily Reinforcement Learning
+RUN pip install ncps tensorflow "ray[rllib]" "gymnasium[mujoco]"
+
+# For Atari Behavior Cloning
+
+## For PyTorch
+RUN pip install ncps torch "ale-py==0.7.4" "ray[rllib]==2.1.0" "gym[atari,accept-rom-license]==0.23.1"
+
+## For TensorFlow
+RUN pip install -U ncps tensorflow "gymnasium[atari,accept-rom-license]" "ray[rllib]"
+RUN pip install ncps tensorflow "ale-py==0.7.4" "ray[rllib]==2.1.0" "gym[atari,accept-rom-license]==0.23.1"
+
+# For Atari Reinforcement Learning (PPO)
+RUN pip install ncps tensorflow "ale-py==0.7.4" "ray[rllib]==2.1.0" "gym[atari,accept-rom-license]==0.23.1"
+
+RUN git clone https://github.com/mlech26l/ncps.git /ncps
+RUN chmod 777 -R /ncps
+WORKDIR /ncps
+
+CMD [ "/bin/bash" ]
